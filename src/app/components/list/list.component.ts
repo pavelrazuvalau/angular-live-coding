@@ -1,29 +1,28 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, Inject } from '@angular/core';
+import { ListService } from 'src/app/services/list.service';
+import { LANG } from 'src/app/app.module';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
   @Input() public searchText: string;
-  public readonly items = [
-    {
-      id: 1,
-      title: 'Title1'
-    },
-    {
-      id: 2,
-      title: 'Title2'
-    },
-    {
-      id: 3,
-      title: 'Title3'
-    },
-  ];
+  public items: any[];
 
-  public removeItem(item: any) {
-    const index = this.items.findIndex(existingItem => existingItem.id === item.id);
-    this.items.splice(index, 1);
+  constructor(
+    private listService: ListService,
+    @Inject(LANG) language: string
+  ) {
+    console.log(language);
+  }
+
+  public ngOnInit(): void {
+    this.items = this.listService.items;
+  }
+
+  public removeItem(args) {
+    this.listService.removeItem(args);
   }
 }

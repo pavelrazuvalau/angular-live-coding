@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import {
   MatToolbarModule,
   MatInputModule,
@@ -14,6 +14,10 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { ListComponent } from './components/list/list.component';
 import { ListItemComponent } from './components/list/list-item/list-item.component';
 import { FilterPipe } from './pipes/filter.pipe';
+import { SubListComponent } from './components/list/sub-list/sub-list.component';
+import { ListService } from './services/list.service';
+
+export const LANG = new InjectionToken<string>('language');
 
 @NgModule({
   declarations: [
@@ -21,7 +25,8 @@ import { FilterPipe } from './pipes/filter.pipe';
     SearchBarComponent,
     ListComponent,
     ListItemComponent,
-    FilterPipe
+    FilterPipe,
+    SubListComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +37,11 @@ import { FilterPipe } from './pipes/filter.pipe';
     MatCardModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [
+    ListService,
+    { provide: 'SecondListService', useClass: ListService },
+    { provide: LANG, useValue: 'en' },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
