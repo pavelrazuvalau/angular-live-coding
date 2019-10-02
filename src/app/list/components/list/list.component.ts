@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Inject } from '@angular/core';
-import { ListService } from 'src/app/services/list.service';
-import { LANG } from 'src/app/app.module';
+import { ListService } from 'src/app/list/services/list.service';
+import { Router, ActivatedRoute } from '@angular/router';
+// import { LANG } from 'src/app/app.module';
 
 @Component({
   selector: 'app-list',
@@ -13,13 +14,19 @@ export class ListComponent implements OnInit {
 
   constructor(
     private listService: ListService,
-    @Inject(LANG) language: string
+    private router: Router,
+    private route: ActivatedRoute
+    // @Inject(LANG) language: string
   ) {
-    console.log(language);
+    // console.log(language);
   }
 
   public ngOnInit(): void {
     this.items = this.listService.items;
+  }
+
+  public editItem(item: any) {
+    this.router.navigate(['./edit', item.id], { relativeTo: this.route });
   }
 
   public removeItem(args) {

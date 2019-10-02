@@ -8,6 +8,11 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class ListItemComponent {
   @Input() public item: any;
   @Output() public remove = new EventEmitter<any>();
+  @Output() public edit = new EventEmitter<any>();
+
+  public onEdit() {
+    this.edit.emit(this.item);
+  }
 
   public onRemove() {
     this.remove.emit(this.item);

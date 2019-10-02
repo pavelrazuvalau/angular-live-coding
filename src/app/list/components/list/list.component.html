@@ -2,6 +2,7 @@
   *ngFor="let item of items"
   [items]="item.subList"
   [searchText]="searchText"
-  (remove)="removeItem($event)">
+  (remove)="removeItem($event)"
+  (edit)="editItem($event)">
 
 </app-sub-list>

@@ -9,6 +9,11 @@ export class SubListComponent {
   @Input() public items: any[];
   @Input() public searchText: string;
   @Output() public remove = new EventEmitter<any>();
+  @Output() public edit = new EventEmitter<any>();
+
+  onEdit(item: any) {
+    this.edit.emit(item);
+  }
 
   onRemove(item: any) {
     this.remove.emit({
