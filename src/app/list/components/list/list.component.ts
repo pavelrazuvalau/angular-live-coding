@@ -1,8 +1,10 @@
+import { getLists, getIsLoading } from './../../reducers/list.reducer';
 import { Component, Input, OnInit, Inject } from '@angular/core';
-import { ListService } from 'src/app/list/services/list.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter } from 'minimatch';
+import { Store, select } from '@ngrx/store';
+import { ListState } from '../../reducers/list.reducer';
+import { LoadAction, RemoveItemAction } from '../../actions/list.actions';
 // import { LANG } from 'src/app/app.module';
 
 @Component({
@@ -13,20 +15,19 @@ import { filter } from 'minimatch';
 export class ListComponent implements OnInit {
   @Input() public searchText: string;
   public items$: Observable<any>;
+  public isLoading$: Observable<boolean>;
 
   constructor(
-    private listService: ListService,
     private router: Router,
-    private route: ActivatedRoute
-    // @Inject(LANG) language: string
+    private route: ActivatedRoute,
+    private store: Store<ListState>
   ) {
-    // console.log(language);
   }
 
   public ngOnInit(): void {
-    this.items$ = this.listService.itemsState$.pipe(
-      tap(),
-    );
+    this.items$ = this.store.pipe(select(getLists));
+    this.isLoading$ = this.store.pipe(select(getIsLoading));
+    this.store.dispatch(new LoadAction());
   }
 
   public editItem(item: any) {
@@ -34,6 +35,6 @@ export class ListComponent implements OnInit {
   }
 
   public removeItem(args) {
-    this.listService.removeItem(args);
+    this.store.dispatch(new RemoveItemAction(args));
   }
 }

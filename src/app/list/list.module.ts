@@ -4,7 +4,8 @@ import {
   MatToolbarModule,
   MatInputModule,
   MatButtonModule,
-  MatCardModule
+  MatCardModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 
 import { ListRoutingModule } from './list-routing.module';
@@ -17,7 +18,10 @@ import { SubListComponent } from './components/list/sub-list/sub-list.component'
 import { ListService } from './services/list.service';
 import { FormsModule } from '@angular/forms';
 import { EditPageComponent } from './pages/edit-page/edit-page.component';
-
+import { StoreModule } from '@ngrx/store';
+import * as fromList from './reducers/list.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { ListEffects } from './effects/list.effects';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,10 @@ import { EditPageComponent } from './pages/edit-page/edit-page.component';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    FormsModule
+    MatProgressSpinnerModule,
+    FormsModule,
+    StoreModule.forFeature('tasks', fromList.reducer),
+    EffectsModule.forFeature([ListEffects])
   ],
   providers: [
     ListService
