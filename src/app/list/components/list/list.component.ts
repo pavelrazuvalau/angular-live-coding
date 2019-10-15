@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, Inject } from '@angular/core';
 import { ListService } from 'src/app/list/services/list.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { filter } from 'minimatch';
 // import { LANG } from 'src/app/app.module';
 
 @Component({
@@ -10,7 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ListComponent implements OnInit {
   @Input() public searchText: string;
-  public items: any[];
+  public items$: Observable<any>;
 
   constructor(
     private listService: ListService,
@@ -22,7 +24,9 @@ export class ListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.items = this.listService.items;
+    this.items$ = this.listService.itemsState$.pipe(
+      tap(),
+    );
   }
 
   public editItem(item: any) {
