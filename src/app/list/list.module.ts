@@ -16,12 +16,14 @@ import { ListItemComponent } from './components/list/list-item/list-item.compone
 import { FilterPipe } from './pipes/filter.pipe';
 import { SubListComponent } from './components/list/sub-list/sub-list.component';
 import { ListService } from './services/list.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditPageComponent } from './pages/edit-page/edit-page.component';
 import { StoreModule } from '@ngrx/store';
 import * as fromList from './reducers/list.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { ListEffects } from './effects/list.effects';
+import { ItemFormComponent } from './components/item-form/item-form.component';
+import { CreatePageComponent } from './pages/create-page/create-page.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { ListEffects } from './effects/list.effects';
     ListItemComponent,
     FilterPipe,
     SubListComponent,
-    EditPageComponent
+    EditPageComponent,
+    ItemFormComponent,
+    CreatePageComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +47,8 @@ import { ListEffects } from './effects/list.effects';
     MatProgressSpinnerModule,
     FormsModule,
     StoreModule.forFeature('tasks', fromList.reducer),
-    EffectsModule.forFeature([ListEffects])
+    EffectsModule.forFeature([ListEffects]),
+    ReactiveFormsModule,
   ],
   providers: [
     ListService
